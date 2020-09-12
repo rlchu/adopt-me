@@ -1,29 +1,14 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
 import Carousel from "./Carousel";
-
-// const Details = (props) => {
-//   return (
-//     <pre>
-//       <code>{JSON.stringify(props, null, 4)}</code>
-//     </pre>
-//   );
-//   // return <h1>hi!</h1>;
-// };
+import ErrorBoundary from "./ErrorBoundary";
 
 class Details extends React.Component {
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     loading: true,
-  //   };
-  // }
-
   // believe this works without the babel hacking:
   state = { loading: true };
 
   componentDidMount() {
+    // throw new Error("lol");
     pet.animal(this.props.id).then(({ animal }) => {
       this.setState({
         name: animal.name,
@@ -58,4 +43,10 @@ class Details extends React.Component {
   }
 }
 
-export default Details;
+export default function DetailsWithErrorBoundary(props) {
+  return (
+    <ErrorBoundary>
+      <Details {...props} />
+    </ErrorBoundary>
+  );
+}
